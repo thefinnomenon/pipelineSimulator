@@ -1,0 +1,37 @@
+addi $a0,$0,10
+addi $a1,$0,10
+addi $a2,$0,10
+add $t5,$0,$0
+add $t6,$0,$0
+add $t7,$0,$0
+Loop1:beq $t5,$a0,Exit              # i LOOP top
+add $t6,$0,$0           # j = 0
+Loop2:beq $t6,$a1,End2              # j LOOP top
+add $t7,$0,$0           # k = 0
+Loop3:beq $t7,$a2,End3              # k LOOP top
+mul $t0,$t5,$a0
+add $t0,$t7,$t0
+addi $s0,$0,1
+mul $t0,$t0,$s0
+add $t0,$t0,$t1
+lw $t8,0($t0)
+mul $t0,$t7,$a2
+add $t0,$t6,$t0
+mul $t0,$t0,$s0
+add $t0,$t0,$t2
+lw $t9,0($t0)
+mul $t8,$t8,$t9
+mul $t0,$t5,$a0
+add $t0,$t6,$t0
+mul $t0,$t0,$s0
+add $t0,$t0,$t3
+lw $t9,0($t0)
+add $t9,$t9,$t8
+sw $t9,0($t0)
+addi $t7,$t7,1          # k++
+beq $0,$0,Loop3                     # k LOOP bottom
+End3:addi $t6,$t6,1     # j++
+beq $0,$0,Loop2                     # j LOOP bottom
+End2:addi $t5,$t5,1     # i++
+beq $0,$0,Loop1                     # i LOOP bottom
+Exit:add $a0,$0,$a0
